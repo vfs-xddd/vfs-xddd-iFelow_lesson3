@@ -3,6 +3,8 @@ package PageObject;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -41,7 +43,7 @@ public class MainPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//input[@id='quickSearchInput']")
     private SelenideElement search_field;
 
-
+    @Step("Проверить что главная страница открыта")
     public MainPage isOpened() {
         main_h1.shouldBe(Condition.visible);
         return page(this);
@@ -51,7 +53,7 @@ public class MainPage extends BasePage {
         Selenide.open(main_page_url, MainPage.class);
         return page(MainPage.class);
     }
-
+    @Description("Инициализация")
     public static MainPage init() {
         return page(MainPage.class);
     }
@@ -64,33 +66,38 @@ public class MainPage extends BasePage {
                 .get(0);
         return el;
     }
-
+    @Step("Нажать меню проекты")
     public MainPage nav_projects_click() {
         get_nav_elem("Проекты").click();
         return page(this);
     }
-    @DisplayName("Создать задачу")
+
+    @Step("Создать задачу")
     public MainPage nav_create_click() {
         get_nav_elem("Создать").click();
         return page(this);
     }
 
+    @Step("Проверить что форма создания задачи открыта")
     public MainPage new_task_form_isOpened() {
         task_name_xpath.shouldBe(Condition.visible);
         return page(this);
     }
 
+    @Step("Получить ссылку проекта")
     public MainPage nav_projects_get_TEST_href() {
         super.tasks_href = get_nav_elem("Проекты").getAttribute("href");
         return page(this);
     }
 
+    @Step("Ввести имя задачи")
     public MainPage send_task_name() {
         get_random_name();      //to this.task_name
         task_name_xpath.sendKeys(task_name);
         return page(this);
     }
 
+    @Step("Ввести описание задачи")
     public MainPage send_task_description() {
         $x("//iframe[@id='mce_0_ifr']").shouldBe(Condition.visible);
         driver.switchTo()
@@ -101,11 +108,13 @@ public class MainPage extends BasePage {
         return page(this);
     }
 
+    @Step("Нажать кнопку создать задачу")
     public MainPage click_new_task_form_submitBtn() {
         new_task_form_submitBtn.click();
         return page(this);
     }
 
+    @Step("Найти созданную задачу")
     public MainPage search_created_task() {
         search_field.sendKeys(task_name);
         if (search_field.exists()) {search_field.sendKeys(Keys.ENTER);}

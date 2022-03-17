@@ -49,7 +49,6 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allureJunit5.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.sshd</groupId>
@@ -140,6 +139,9 @@
                     <parallel>all</parallel>
                     <threadCount>${parallelCount}</threadCount>
                     <argLine>
+<!--                        эти строки указывают сколько памяти надо выделять на сборку, устанавливать больше 1гб опасно для слабых и не настроеных Jenkins агентов-->
+                        -Xmx1024m
+                        -Xms1024m
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 
                     </argLine>
