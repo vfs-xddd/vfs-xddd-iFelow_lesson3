@@ -14,7 +14,7 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.sleep;
 
-public class ProjectsPage extends BasePage{
+public class ProjectsPage {
 
     @FindBy(how = How.XPATH, using = "//span[@id='subnav-title']/span[text()='Список задач']")
     private SelenideElement tasks_h1;
@@ -30,7 +30,7 @@ public class ProjectsPage extends BasePage{
 
     @Step("Открыть ссылку проекта")
     public static ProjectsPage open() {
-        Selenide.open(tasks_href, ProjectsPage.class);
+        Selenide.open(System.getProperty("tasks_href"), ProjectsPage.class);
         return page(ProjectsPage.class);
     }
 

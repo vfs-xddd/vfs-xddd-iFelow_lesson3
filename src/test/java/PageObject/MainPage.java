@@ -3,6 +3,7 @@ package PageObject;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.DisplayName;
@@ -13,12 +14,13 @@ import org.openqa.selenium.support.How;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class MainPage extends BasePage {
+public class MainPage {
     private static final String h1 = "System Dashboard";
     private final static String main_page_url = "https://edujira.ifellow.ru/secure/Dashboard.jspa";
     protected String task_description = "Test task";
@@ -26,7 +28,7 @@ public class MainPage extends BasePage {
 
 
     @FindBy(how = How.XPATH, using = "//div[@id='dashboard-content']//h1[text()='" + h1 +"']")
-    private SelenideElement main_h1;
+    private static SelenideElement main_h1;
 
     @FindBy(how = How.XPATH, using = "//h1[@id='logo']//following-sibling::ul/*/a")
     private static List<SelenideElement> nav;
@@ -44,9 +46,12 @@ public class MainPage extends BasePage {
     private SelenideElement search_field;
 
     @Step("Проверить что главная страница открыта")
-    public MainPage isOpened() {
-        main_h1.shouldBe(Condition.visible);
-        return page(this);
+    public static MainPage isOpened() {
+        String title = "System Dashboard - Jira";
+        while (!WebDriverRunner.getWebDriver().getTitle().equals(title)){sleep(100);
+        }
+//        main_h1.shouldBe(Condition.visible);
+        return page(MainPage.class);
     }
 
     private static MainPage open() {
@@ -86,7 +91,7 @@ public class MainPage extends BasePage {
 
     @Step("Получить ссылку проекта")
     public MainPage nav_projects_get_TEST_href() {
-        super.tasks_href = get_nav_elem("Проекты").getAttribute("href");
+        System.setProperty("tasks_href", Objects.requireNonNull(get_nav_elem("Проекты").getAttribute("href")));
         return page(this);
     }
 
@@ -100,11 +105,12 @@ public class MainPage extends BasePage {
     @Step("Ввести описание задачи")
     public MainPage send_task_description() {
         $x("//iframe[@id='mce_0_ifr']").shouldBe(Condition.visible);
-        driver.switchTo()
+
+        WebDriverRunner.driver().switchTo()     //driver
                 .frame("mce_0_ifr")
                 .findElement(By.id("tinymce"))
                 .sendKeys(task_description);
-        driver.switchTo().defaultContent();
+        WebDriverRunner.driver().switchTo().defaultContent();
         return page(this);
     }
 

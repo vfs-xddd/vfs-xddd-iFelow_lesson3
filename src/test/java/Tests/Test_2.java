@@ -1,6 +1,5 @@
 package Tests;
 
-import PageObject.BasePage;
 import PageObject.MainPage;
 import PageObject.TaskPage;
 import io.qameta.allure.Step;
@@ -9,12 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.sleep;
 
-public class Test_2 extends BasePage {
+public class Test_2 extends Tests_config{
 
     @Test
     @DisplayName("Тест кейс 2")
     public void Test2() {
-        MainPage.init()
+        MainPage.isOpened()
                 .nav_create_click()
                 .new_task_form_isOpened()
                 .send_task_name()

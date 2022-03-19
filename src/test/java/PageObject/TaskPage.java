@@ -10,7 +10,7 @@ import org.openqa.selenium.support.How;
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.sleep;
 
-public class TaskPage extends BasePage{
+public class TaskPage {
 
     @FindBy(how = How.XPATH, using = "//span[@class='assign-to-me-link']")
     private SelenideElement take_task_toMe;
