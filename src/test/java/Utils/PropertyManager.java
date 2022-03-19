@@ -1,5 +1,7 @@
 package Utils;
 
+import org.junit.jupiter.api.BeforeAll;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
