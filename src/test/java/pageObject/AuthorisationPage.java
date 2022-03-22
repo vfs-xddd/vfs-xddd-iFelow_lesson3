@@ -1,17 +1,18 @@
-package PageObject;
+package pageObject;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Selenide.page;
 
+/** <code>Page</code>
+ * Страница авторизации.
+ * @author Maksim_Kachaev
+ * */
 public class AuthorisationPage {
     private final String h1 = "Добро пожаловать в Jira";
 

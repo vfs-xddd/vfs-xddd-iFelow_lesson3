@@ -1,4 +1,4 @@
-package PageObject;
+package pageObject;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -6,13 +6,11 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -20,6 +18,10 @@ import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.*;
 
+/** <code>Page</code>
+ * Главная страница.
+ * @author Maksim_Kachaev
+ * */
 public class MainPage {
     private static final String h1 = "System Dashboard";
     private final static String main_page_url = "https://edujira.ifellow.ru/secure/Dashboard.jspa";
@@ -89,10 +91,11 @@ public class MainPage {
         return page(this);
     }
 
+    /**@return page url link*/
     @Step("Получить ссылку проекта")
-    public MainPage nav_projects_get_TEST_href() {
-        System.setProperty("tasks_href", Objects.requireNonNull(get_nav_elem("Проекты").getAttribute("href")));
-        return page(this);
+    public String nav_projects_get_TEST_href() {
+        //System.setProperty("tasks_href", Objects.requireNonNull(get_nav_elem("Проекты").getAttribute("href")));
+        return Objects.requireNonNull(get_nav_elem("Проекты").getAttribute("href"));
     }
 
     @Step("Ввести имя задачи")

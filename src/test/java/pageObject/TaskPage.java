@@ -1,15 +1,17 @@
-package PageObject;
+package pageObject;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import static com.codeborne.selenide.Selenide.page;
-import static com.codeborne.selenide.Selenide.sleep;
 
+/** <code>Page</code>
+ * Страница задачи.
+ * @author Maksim_Kachaev
+ * */
 public class TaskPage {
 
     @FindBy(how = How.XPATH, using = "//span[@class='assign-to-me-link']")

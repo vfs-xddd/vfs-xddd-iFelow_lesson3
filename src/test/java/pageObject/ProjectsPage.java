@@ -1,4 +1,4 @@
-package PageObject;
+package pageObject;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
@@ -14,6 +14,10 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.sleep;
 
+/** <code>Page</code>
+ * Страница проектов.
+ * @author Maksim_Kachaev
+ * */
 public class ProjectsPage {
 
     @FindBy(how = How.XPATH, using = "//span[@id='subnav-title']/span[text()='Список задач']")
@@ -29,8 +33,8 @@ public class ProjectsPage {
     private List<SelenideElement> list_of_tasks_elem;
 
     @Step("Открыть ссылку проекта")
-    public static ProjectsPage open() {
-        Selenide.open(System.getProperty("tasks_href"), ProjectsPage.class);
+    public static ProjectsPage open(String task_href) {
+        Selenide.open(task_href, ProjectsPage.class);
         return page(ProjectsPage.class);
     }
 
