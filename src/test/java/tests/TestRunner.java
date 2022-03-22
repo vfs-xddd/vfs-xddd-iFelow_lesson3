@@ -5,7 +5,6 @@ import io.qameta.allure.Description;
 import pageObject.AuthorisationPage;
 import pageObject.MainPage;
 import pageObject.ProjectsPage;
-import pageObject.TaskPage;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,12 +35,12 @@ public class TestRunner extends TestsConfig {
     @Description("Проверка соответсвия общего количества заведенных задач в выбранном проекте количеству задач в шапке.")
     public void test1() {
         String test_href =  MainPage.waitIsOpened()
-                                    .nav_projects_click()
-                                    .nav_projects_get_TEST_href();
+                                    .navProjectsClick()
+                                    .navProjectsGetTestHref();
 
                             ProjectsPage.open(test_href)
-                                    .taskList_click()
-                                    .test_tasks_count();
+                                    .taskListClick()
+                                    .testTasksCount();
     }
 
     /**UI test*/
@@ -52,12 +51,12 @@ public class TestRunner extends TestsConfig {
          String[] taskValues = NewTaskValueGenerator.getValues();
 
         MainPage.waitIsOpened()
-                .nav_create_click()
-                .send_task_name(taskValues[0])
-                .send_task_description(taskValues[1])
-                .click_new_task_form_submitBtn()
-                .search_created_task()
-                .take_task_toMe()
-                .task_to_done_status();
+                .navCreateClick()
+                .sendTaskName(taskValues[0])
+                .sendTaskDescription(taskValues[1])
+                .clickNewTaskFormSubmitBtn()
+                .searchCreatedTask()
+                .takeTaskToMe()
+                .taskToDoneStatus();
     }
 }

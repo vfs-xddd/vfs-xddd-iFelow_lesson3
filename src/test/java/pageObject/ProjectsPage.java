@@ -1,6 +1,7 @@
 package pageObject;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -9,8 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-
-import java.util.List;
 
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.sleep;
@@ -22,22 +21,23 @@ import static com.codeborne.selenide.Selenide.sleep;
 public class ProjectsPage {
 
     @FindBy(how = How.XPATH, using = "//span[@id='subnav-title']/span[text()='Список задач']")
-    private SelenideElement tasks_h1;
+    private SelenideElement tasksH1;
 
     @FindBy(how = How.XPATH, using = "//a[contains(@data-link-id, 'plan-scrum')]")
-    private static SelenideElement left_menu_tasks_list;
+    private static SelenideElement leftMenuTasksList;
 
     @FindBy(how = How.XPATH, using = "//div[contains(text(), 'проблем') and @class='ghx-issue-count']")
-    private SelenideElement printed_task_count;
+    private SelenideElement printedTaskCount;
 
     @FindBy(how = How.XPATH, using = "//div[@id='ghx-content-group']//div[contains(@class, 'js-issue-list')]/div[contains(@class, 'js-issue')]")
-    private List<SelenideElement> list_of_tasks_elem;
+    private ElementsCollection listOfTasksElem;
+
 
     @Step("Открыть ссылку проекта")
     @CanIgnoreReturnValue
     public static ProjectsPage open(String task_href) {
         ProjectsPage page = Selenide.open(task_href, ProjectsPage.class);
-        left_menu_tasks_list.shouldBe(Condition.visible);
+        leftMenuTasksList.shouldBe(Condition.visible);
         return page;
     }
 
@@ -46,13 +46,13 @@ public class ProjectsPage {
      * */
     @CanIgnoreReturnValue
     public ProjectsPage waitIsOpened() {
-        tasks_h1.shouldBe(Condition.visible);
+        tasksH1.shouldBe(Condition.visible);
         return page(this);
     }
     @Step("Нажать кнопку в меню задачи")
     @CanIgnoreReturnValue
-    public ProjectsPage taskList_click() {
-        left_menu_tasks_list.click();
+    public ProjectsPage taskListClick() {
+        leftMenuTasksList.click();
         waitIsOpened();
         return page(this);
     }
@@ -60,10 +60,10 @@ public class ProjectsPage {
     @Step("Проверить соответствие кол-ва задач")
     @CanIgnoreReturnValue
     @DisplayName(".assertEquals(expected_tasks_count, printed_tasks_count)")
-    public ProjectsPage test_tasks_count() {
-        int printed_tasks_count = Integer.parseInt(printed_task_count.getText().split(" ")[0]);
-        if (printed_tasks_count > 0) {while (list_of_tasks_elem.isEmpty()) {sleep(100);}}
-        int expected_tasks_count = list_of_tasks_elem.size();
+    public ProjectsPage testTasksCount() {
+        int printed_tasks_count = Integer.parseInt(printedTaskCount.getText().split(" ")[0]);
+        if (printed_tasks_count > 0) {while (listOfTasksElem.isEmpty()) {sleep(100);}}
+        int expected_tasks_count = listOfTasksElem.size();
         Assertions.assertEquals(expected_tasks_count, printed_tasks_count);
         return page(this);
     }

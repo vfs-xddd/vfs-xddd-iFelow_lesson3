@@ -16,19 +16,19 @@ import static com.codeborne.selenide.Selenide.page;
 public class TaskPage {
 
     @FindBy(how = How.XPATH, using = "//span[@class='assign-to-me-link']")
-    private static SelenideElement take_task_toMe;
+    private static SelenideElement takeTaskToMe;
 
     @FindBy(how = How.XPATH, using = "//span[contains(text(),'Бизнес-процесс')]")
-    private SelenideElement bisness_pr_btn;
+    private SelenideElement bisnessPrBtn;
 
     @FindBy(how = How.XPATH, using = "//span[contains(text(),'Выполнено')]")
-    private SelenideElement done_task;
+    private SelenideElement doneTask;
 
     @FindBy(how = How.XPATH, using = "//span[@id='assignee-val']/span[@class='user-hover']")
-    private SelenideElement task_on_me;
+    private SelenideElement taskOnMe;
 
     @FindBy(how = How.XPATH, using = "//span[@id='status-val']/span")
-    private SelenideElement task_ready;
+    private SelenideElement taskReady;
 
 
 
@@ -37,25 +37,25 @@ public class TaskPage {
     @CanIgnoreReturnValue
     public static TaskPage waitIsOpened() {
         TaskPage page = page(TaskPage.class);
-        take_task_toMe.shouldBe(Condition.visible);
+        takeTaskToMe.shouldBe(Condition.visible);
         return page;
     }
 
     @Step("Взять задачу себе")
     @CanIgnoreReturnValue
-    public TaskPage take_task_toMe() {
+    public TaskPage takeTaskToMe() {
         String userLogin = System.getProperty("login");
-        take_task_toMe.click();
-        task_on_me.shouldHave(Condition.attribute("rel", userLogin));
+        takeTaskToMe.click();
+        taskOnMe.shouldHave(Condition.attribute("rel", userLogin));
         return page(this);
     }
 
     @Step("Установить статус выполнено")
     @CanIgnoreReturnValue
-    public TaskPage task_to_done_status() {
-        bisness_pr_btn.click();
-        done_task.click();
-        task_ready.shouldHave(Condition.exactText("Готово"));
+    public TaskPage taskToDoneStatus() {
+        bisnessPrBtn.click();
+        doneTask.click();
+        taskReady.shouldHave(Condition.exactText("Готово"));
         return page(this);
     }
 
