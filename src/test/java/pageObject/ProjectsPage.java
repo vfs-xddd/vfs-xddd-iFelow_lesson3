@@ -3,6 +3,7 @@ package pageObject;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,7 @@ public class ProjectsPage {
     private SelenideElement tasks_h1;
 
     @FindBy(how = How.XPATH, using = "//a[contains(@data-link-id, 'plan-scrum')]")
-    private SelenideElement left_menu_tasks_list;
+    private static SelenideElement left_menu_tasks_list;
 
     @FindBy(how = How.XPATH, using = "//div[contains(text(), 'проблем') and @class='ghx-issue-count']")
     private SelenideElement printed_task_count;
@@ -33,26 +34,34 @@ public class ProjectsPage {
     private List<SelenideElement> list_of_tasks_elem;
 
     @Step("Открыть ссылку проекта")
+    @CanIgnoreReturnValue
     public static ProjectsPage open(String task_href) {
-        Selenide.open(task_href, ProjectsPage.class);
-        return page(ProjectsPage.class);
+        ProjectsPage page = Selenide.open(task_href, ProjectsPage.class);
+        left_menu_tasks_list.shouldBe(Condition.visible);
+        return page;
     }
 
-    @Step("Проверить что страница проекта открыта")
-    public ProjectsPage isOpened() {
+    /**Ждет пока будет развернут <code>Список задач</code>>
+     * @see Condition#visible
+     * */
+    @CanIgnoreReturnValue
+    public ProjectsPage waitIsOpened() {
         tasks_h1.shouldBe(Condition.visible);
         return page(this);
     }
     @Step("Нажать кнопку в меню задачи")
+    @CanIgnoreReturnValue
     public ProjectsPage taskList_click() {
         left_menu_tasks_list.click();
+        waitIsOpened();
         return page(this);
     }
 
     @Step("Проверить соответствие кол-ва задач")
+    @CanIgnoreReturnValue
     @DisplayName(".assertEquals(expected_tasks_count, printed_tasks_count)")
     public ProjectsPage test_tasks_count() {
-        int printed_tasks_count = Integer.valueOf(printed_task_count.getText().split(" ")[0]);
+        int printed_tasks_count = Integer.parseInt(printed_task_count.getText().split(" ")[0]);
         if (printed_tasks_count > 0) {while (list_of_tasks_elem.isEmpty()) {sleep(100);}}
         int expected_tasks_count = list_of_tasks_elem.size();
         Assertions.assertEquals(expected_tasks_count, printed_tasks_count);

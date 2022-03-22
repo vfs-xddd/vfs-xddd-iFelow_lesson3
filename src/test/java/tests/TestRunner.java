@@ -10,6 +10,7 @@ import io.qameta.allure.Step;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import utils.NewTaskValueGenerator;
 
 /** Главный тестовый класс.
  *  <p>Наследует конфигурацию WebDriver, Allure и входные данные Properties.</p>
@@ -24,7 +25,6 @@ public class TestRunner extends TestsConfig {
     @Step("Авторизация")
     public void authorisation() {
         AuthorisationPage.open(System.getProperty("start_page_url"))
-                .isOpened()
                 .send_login(System.getProperty("login"))
                 .send_password(System.getProperty("password"))
                 .click_submitBtn();
@@ -35,13 +35,12 @@ public class TestRunner extends TestsConfig {
     @DisplayName("Тест кейс 1")
     @Description("Проверка соответсвия общего количества заведенных задач в выбранном проекте количеству задач в шапке.")
     public void test1() {
-        String test_href =  MainPage.isOpened()
+        String test_href =  MainPage.waitIsOpened()
                                     .nav_projects_click()
                                     .nav_projects_get_TEST_href();
 
                             ProjectsPage.open(test_href)
                                     .taskList_click()
-                                    .isOpened()
                                     .test_tasks_count();
     }
 
@@ -50,15 +49,14 @@ public class TestRunner extends TestsConfig {
     @DisplayName("Тест кейс 2")
     @Description("Проверка создания нового бага, простановки статусов до закрытого.")
     public void test2() {
-        MainPage.isOpened()
+         String[] taskValues = NewTaskValueGenerator.getValues();
+
+        MainPage.waitIsOpened()
                 .nav_create_click()
-                .new_task_form_isOpened()
-                .send_task_name()
-                .send_task_description()
+                .send_task_name(taskValues[0])
+                .send_task_description(taskValues[1])
                 .click_new_task_form_submitBtn()
-                .search_created_task();
-        TaskPage.init()
-                .isOpened()
+                .search_created_task()
                 .take_task_toMe()
                 .task_to_done_status();
     }
