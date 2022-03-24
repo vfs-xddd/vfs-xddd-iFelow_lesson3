@@ -2,7 +2,7 @@
 
 ###Описание:
 Разработать проект автотестов с использованием junit, maven, selenide, allure За основу тестов взять Лекцию с ui тестами Jira.    
-Тестируемый сайт - edujira.ifellow.ru.
+Тестируемый сайт: http://edujira.ifellow.ru.
 
 ###Сборка:
 Maven, Selenide, Junit5, Allure.
