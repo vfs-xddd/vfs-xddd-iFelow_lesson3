@@ -27,7 +27,7 @@ public class MainPage {
     @FindBy(how = How.XPATH, using = "//div[@id='dashboard-content']//h1[text()='" + H1 +"']")
     private static SelenideElement mainH1;
 
-    @FindBy(how = How.XPATH, using = "//h1[@id='logo']//following-sibling::ul/*/a")
+    @FindBy(how = How.XPATH, using = "//*[@id='logo']//following-sibling::ul/*/a")
     private static List<SelenideElement> nav;
 
     @FindBy(how = How.XPATH, using = "//input[@id='summary']")
@@ -119,7 +119,7 @@ public class MainPage {
 
     /**Возвращает элемент меню по имени.
      * @return элемент страницы*/
-    private SelenideElement getNavElem(@NotNull String name) {
+    private SelenideElement getNavElem( String name) {
         SelenideElement el  = nav
                 .stream()
                 .filter(webElement -> webElement.getText().contains(name))
