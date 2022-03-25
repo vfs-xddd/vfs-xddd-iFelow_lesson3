@@ -14,7 +14,7 @@ public class WebDriverHandler {
      * @return готовый драйвер для потока тестов
      * */
     public static WebDriver getDriver() {
-        System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         Configuration.timeout = 5000;
