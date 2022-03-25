@@ -32,6 +32,16 @@ public class ProjectsPage {
     @FindBy(how = How.XPATH, using = "//div[@id='ghx-content-group']//div[contains(@class, 'js-issue-list')]/div[contains(@class, 'js-issue')]")
     private ElementsCollection listOfTasksElem;
 
+    @FindBy(how = How.XPATH, using = "//*[@id='gh-show-more-config-dropdown']/preceding-sibling::a")
+    private SelenideElement menuShowNumTasks;
+
+    @FindBy(how = How.XPATH, using = "//a[text()='Все задачи']")
+    private SelenideElement showAllTasksBtn;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'js-issue-list')]")
+    private SelenideElement tasksContainerDiv;
+
+
 
     @Step("Открыть ссылку проекта")
     @CanIgnoreReturnValue
@@ -61,6 +71,9 @@ public class ProjectsPage {
     @CanIgnoreReturnValue
     @DisplayName(".assertEquals(expected_tasks_count, printed_tasks_count)")
     public ProjectsPage testTasksCount() {
+        menuShowNumTasks.shouldBe(Condition.visible).click();   //меню кнопки с отображением задач
+        showAllTasksBtn.shouldBe(Condition.visible).click();    //выбрать опцию показать все задачи
+        tasksContainerDiv.shouldBe(Condition.visible);          //ждать пока контейнер с задачами будет видимый
         int printed_tasks_count = Integer.parseInt(printedTaskCount.getText().split(" ")[0]);
         if (printed_tasks_count > 0) {while (listOfTasksElem.isEmpty()) {sleep(100);}}
         int expected_tasks_count = listOfTasksElem.size();
